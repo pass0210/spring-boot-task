@@ -8,7 +8,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "task_status")
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter

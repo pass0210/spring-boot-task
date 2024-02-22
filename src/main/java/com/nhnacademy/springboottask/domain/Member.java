@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "member")
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter
@@ -28,8 +27,8 @@ public class Member {
     @Getter
     @Setter
     public static class Pk implements Serializable {
-        @Column(name = "userId", nullable = false)
-        private String userId;
+        @Column(name = "memberId", nullable = false)
+        private String memberId;
         @Column(name = "projectId", nullable = false)
         private Long projectId;
     }

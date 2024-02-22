@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "project_status")
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter

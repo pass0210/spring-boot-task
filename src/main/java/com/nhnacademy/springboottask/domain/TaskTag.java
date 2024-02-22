@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "task_tag")
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter

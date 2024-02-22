@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tag")
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter

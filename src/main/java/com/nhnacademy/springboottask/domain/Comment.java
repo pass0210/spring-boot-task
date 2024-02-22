@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "comment")
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter

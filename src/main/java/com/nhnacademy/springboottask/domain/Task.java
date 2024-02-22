@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "task")
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Getter
 @Setter
