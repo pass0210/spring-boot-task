@@ -6,6 +6,7 @@ import com.nhnacademy.springboottask.repository.MemberRepository;
 import com.nhnacademy.springboottask.repository.ProjectRepository;
 import com.nhnacademy.springboottask.service.MemberService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class MemberServiceImpl implements MemberService {
         this.projectRepository = projectRepository;
     }
 
+    @Transactional
     @Override
     public Member addMember(Long projectId, String memberId) {
         Member member = new Member();
@@ -34,6 +36,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.save(member);
     }
 
+    @Transactional
     @Override
     public void deleteMember(Long projectId, String memberId) {
         Member.Pk pk = new Member.Pk();
@@ -44,6 +47,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.deleteById(pk);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Member> getMemberByProject(Long projectId) {
         return memberRepository.getMemberByProjectId(projectId);

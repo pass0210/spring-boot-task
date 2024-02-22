@@ -7,6 +7,7 @@ import com.nhnacademy.springboottask.repository.ProjectRepository;
 import com.nhnacademy.springboottask.repository.ProjectStatusRepository;
 import com.nhnacademy.springboottask.service.ProjectService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class ProjectServiceImpl implements ProjectService {
         this.projectStatusRepository = projectStatusRepository;
     }
 
+    @Transactional
     @Override
     public void createProject(CreateProjectRequest request) {
         Project project = new Project();
@@ -34,6 +36,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
     }
 
+    @Transactional
     @Override
     public void updateStateProject(Long projectId, String projectState) {
         Project project = projectRepository
@@ -47,6 +50,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Project> getProjectByMember(String memberId) {
         return projectRepository.getProjectByMemberId(memberId);
