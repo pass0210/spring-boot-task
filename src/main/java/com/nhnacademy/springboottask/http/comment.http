@@ -1,0 +1,29 @@
+POST http://localhost:9090/projects/5/comments
+Content-Type: application/json
+
+{
+  "userId": "testUser",
+  "content": "testContent"
+}
+
+###
+
+PUT http://localhost:9090/projects/5/comments/1
+Content-Type: application/json
+
+{
+  "userId": "testUser",
+  "content": "updateContent"
+}
+
+###
+
+DELETE http://localhost:9090/projects/comments/2
+
+###
+
+GET http://localhost:9090/projects/comments/1
+
+###
+
+GET http://localhost:9090/projects/5/comments

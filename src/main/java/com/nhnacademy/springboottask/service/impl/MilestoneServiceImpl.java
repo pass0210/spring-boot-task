@@ -5,6 +5,7 @@ import com.nhnacademy.springboottask.dto.request.MilestoneRequest;
 import com.nhnacademy.springboottask.repository.MilestoneRepository;
 import com.nhnacademy.springboottask.service.MilestoneService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class MilestoneServiceImpl implements MilestoneService {
         this.milestoneRepository = milestoneRepository;
     }
 
+    @Transactional
     @Override
     public void createMilestone(MilestoneRequest request) {
         Milestone milestone = new Milestone();
@@ -23,6 +25,7 @@ public class MilestoneServiceImpl implements MilestoneService {
         setMilestoneValue(milestone, request);
     }
 
+    @Transactional
     @Override
     public void updateMilestone(Long milestoneId, MilestoneRequest request) {
         Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
@@ -30,16 +33,19 @@ public class MilestoneServiceImpl implements MilestoneService {
         setMilestoneValue(milestone, request);
     }
 
+    @Transactional
     @Override
     public void deleteMilestone(Long milestoneId) {
         milestoneRepository.deleteById(milestoneId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Milestone> getMilestones() {
         return milestoneRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Milestone getMilestone(Long milestoneId) {
         return milestoneRepository.findById(milestoneId).orElse(null);
