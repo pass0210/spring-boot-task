@@ -23,13 +23,11 @@ import javax.persistence.EntityManager;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Transactional
-class ProjectControllerTest {
+class ProjectEndToEndTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -37,6 +35,7 @@ class ProjectControllerTest {
 
     @Test
     @Order(1)
+    @Transactional
     void projectSaveTest() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         CreateProjectRequest request = new CreateProjectRequest();
@@ -51,6 +50,7 @@ class ProjectControllerTest {
 
     @Test
     @Order(2)
+    @Transactional
     void projectStateUpdateTest() throws Exception {
         Project project = new Project();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -73,6 +73,8 @@ class ProjectControllerTest {
     }
 
     @Test
+    @Order(3)
+    @Transactional
     void projectMemberSaveTest() throws Exception {
         Project project = new Project();
         ObjectMapper objectMapper = new ObjectMapper();
@@ -94,6 +96,8 @@ class ProjectControllerTest {
     }
 
     @Test
+    @Order(4)
+    @Transactional
     void projectMemberDeleteTest() throws Exception {
         Project project = new Project();
         Member member = new Member();
@@ -119,10 +123,12 @@ class ProjectControllerTest {
         mockMvc.perform(delete("/projects/" + projectId + "/members")
                 .content(objectMapper.writeValueAsString(memberIdRequest))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
+    @Order(5)
+    @Transactional
     void getProjectByMemberTest() throws Exception {
         Project project = new Project();
         Member member = new Member();
@@ -130,7 +136,7 @@ class ProjectControllerTest {
         MemberIdRequest memberIdRequest = new MemberIdRequest();
         ProjectStatus projectStatus = new ProjectStatus();
 
-        projectStatus.setProjectState("활성");
+        projectStatus.setProjectState("testState");
         memberIdRequest.setMemberId("pass0210");
         project.setUserId("test");
         project.setProjectName("test project");
@@ -152,6 +158,8 @@ class ProjectControllerTest {
     }
 
     @Test
+    @Order(6)
+    @Transactional
     void getMemberByProjectTest() throws Exception {
         Project project = new Project();
         Member member = new Member();
@@ -159,7 +167,7 @@ class ProjectControllerTest {
         MemberIdRequest memberIdRequest = new MemberIdRequest();
         ProjectStatus projectStatus = new ProjectStatus();
 
-        projectStatus.setProjectState("활성");
+        projectStatus.setProjectState("testState");
         memberIdRequest.setMemberId("pass0210");
         project.setUserId("test");
         project.setProjectName("test project");
@@ -178,5 +186,26 @@ class ProjectControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].pk.memberId", equalTo("pass0210")));
+    }
+
+    @Test
+    @Order(7)
+    @Transactional
+    void getProjectTest() throws Exception {
+        Project project = new Project();
+        ProjectStatus projectStatus = new ProjectStatus();
+
+        projectStatus.setProjectState("testState");
+        project.setUserId("test");
+        project.setProjectName("test project");
+        project.setProjectStatus(projectStatus);
+
+        entityManager.persist(project);
+        Long projectId = project.getProjectId();
+
+        mockMvc.perform(get("/projects/" + projectId))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.userId", equalTo("test")));
     }
 }
