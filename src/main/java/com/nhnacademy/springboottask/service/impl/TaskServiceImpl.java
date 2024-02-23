@@ -54,8 +54,9 @@ public class TaskServiceImpl implements TaskService {
         task.setDeadline(request.getDeadline());
 
         taskRepository.save(task);
-
-        taskTagSave(task, request.getTagIds());
+        if (!request.getTagIds().isEmpty()) {
+            taskTagSave(task, request.getTagIds());
+        }
     }
 
     @Transactional
@@ -79,12 +80,15 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.save(task);
         taskTagRepository.deleteByPk_TaskId(task.getTaskId());
-        taskTagSave(task, request.getTagIds());
+        if (!request.getTagIds().isEmpty()) {
+            taskTagSave(task, request.getTagIds());
+        }
     }
 
     @Transactional
     @Override
     public void deleteTask(Long taskId) {
+        taskTagRepository.deleteByPk_TaskId(taskId);
         taskRepository.deleteById(taskId);
     }
 
