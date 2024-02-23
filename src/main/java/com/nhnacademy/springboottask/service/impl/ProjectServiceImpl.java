@@ -55,4 +55,10 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> getProjectByMember(String memberId) {
         return projectRepository.getProjectByMemberId(memberId);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Project getProject(Long projectId) {
+        return projectRepository.findById(projectId).orElse(null);
+    }
 }

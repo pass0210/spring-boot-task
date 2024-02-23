@@ -9,12 +9,11 @@ import com.nhnacademy.springboottask.service.MemberService;
 import com.nhnacademy.springboottask.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/projects")
 public class ProjectController {
     private final ProjectService projectService;
@@ -57,12 +56,12 @@ public class ProjectController {
         memberService.deleteMember(projectId, request.getMemberId());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.NO_CONTENT)
                 .build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<Project>> getProjectByMember(@RequestParam("memberId") String memberId) {
+    @GetMapping("/{memberId}/projects")
+    public ResponseEntity<List<Project>> getProjectByMember(@PathVariable("memberId") String memberId) {
         List<Project> projectByMember = projectService.getProjectByMember(memberId);
 
         return ResponseEntity
@@ -70,12 +69,21 @@ public class ProjectController {
                 .body(projectByMember);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Member>> getMemberByProject(@RequestParam("projectId") Long projectId) {
+    @GetMapping("/{projectId}/members")
+    public ResponseEntity<List<Member>> getMemberByProject(@PathVariable("projectId") Long projectId) {
         List<Member> memberByProject = memberService.getMemberByProject(projectId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(memberByProject);
+    }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<Project> getProject(@PathVariable Long projectId) {
+        Project project = projectService.getProject(projectId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(project);
     }
 }

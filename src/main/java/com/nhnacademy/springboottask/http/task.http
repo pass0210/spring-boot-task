@@ -1,0 +1,38 @@
+POST http://localhost:9090/projects/24/tasks
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "taskState": "할 일",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
+###
+
+PUT http://localhost:9090/projects/tasks/1
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "projectId": 24,
+  "taskState": "완료",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
+###
+
+GET http://localhost:9090/projects/24/tasks
+
+###
+
+GET http://localhost:9090/projects/tasks/1
+
+###
+
+GET http://localhost:9090/projects/1/24/tasks
