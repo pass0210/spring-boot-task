@@ -27,6 +27,10 @@ Content-Type: application/json
 
 ###
 
+DELETE http://localhost:9090/projects/tasks/4
+
+###
+
 GET http://localhost:9090/projects/24/tasks
 
 ###

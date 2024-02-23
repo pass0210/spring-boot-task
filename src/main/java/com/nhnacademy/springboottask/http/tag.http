@@ -1,0 +1,31 @@
+POST http://localhost:9090/projects/tags
+Content-Type: application/json
+
+{
+  "tagName": "testTag"
+}
+
+###
+
+PUT http://localhost:9090/projects/tags/1
+Content-Type: application/json
+
+{
+  "tagName": "updateTagName"
+}
+
+###
+
+DELETE http://localhost:9090/projects/tags/2
+
+###
+
+GET http://localhost:9090/projects/tags
+
+###
+
+GET http://localhost:9090/projects/tags/1
+
+###
+
+GET http://localhost:9090/projects/5/tags
