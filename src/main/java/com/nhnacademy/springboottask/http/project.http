@@ -1,0 +1,47 @@
+POST http://localhost:9090/projects
+Content-Type: application/json
+
+{
+  "projectState": "활성",
+  "memberId": "test",
+  "projectName": "test project"
+}
+
+###
+
+PUT http://localhost:9090/projects/24/status
+Content-Type: application/json
+
+{
+  "state": "휴면"
+}
+
+###
+
+POST http://localhost:9090/projects/24/members
+Content-Type: application/json
+
+{
+  "memberId": "testMember"
+}
+
+###
+
+DELETE http://localhost:9090/projects/24/members
+Content-Type: application/json
+
+{
+  "memberId": "testMember"
+}
+
+###
+
+GET http://localhost:9090/projects/testMember/projects
+
+###
+
+GET http://localhost:9090/projects/24/members
+
+###
+
+GET http://localhost:9090/projects/24
