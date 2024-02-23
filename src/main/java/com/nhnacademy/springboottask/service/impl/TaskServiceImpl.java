@@ -19,19 +19,22 @@ public class TaskServiceImpl implements TaskService {
     private final ProjectRepository projectRepository;
     private final MilestoneRepository milestoneRepository;
     private final TaskStatusRepository taskStatusRepository;
+    private final CommentRepository commentRepository;
 
     public TaskServiceImpl(TaskRepository taskRepository,
                            TaskTagRepository taskTagRepository,
                            TagRepository tagRepository,
                            ProjectRepository projectRepository,
                            MilestoneRepository milestoneRepository,
-                           TaskStatusRepository taskStatusRepository) {
+                           TaskStatusRepository taskStatusRepository,
+                           CommentRepository commentRepository) {
         this.taskRepository = taskRepository;
         this.taskTagRepository = taskTagRepository;
         this.tagRepository = tagRepository;
         this.projectRepository = projectRepository;
         this.milestoneRepository = milestoneRepository;
         this.taskStatusRepository = taskStatusRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Transactional
@@ -89,6 +92,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void deleteTask(Long taskId) {
         taskTagRepository.deleteByPk_TaskId(taskId);
+        commentRepository.deleteByTask_TaskId(taskId);
         taskRepository.deleteById(taskId);
     }
 
