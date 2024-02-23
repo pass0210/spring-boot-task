@@ -17,7 +17,7 @@ public class Milestone {
     private Long milestoneId;
 
     @Column(nullable = false)
-    private String level;
+    private String stepName;
 
     private LocalDateTime startDate;
 

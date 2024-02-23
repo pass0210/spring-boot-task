@@ -52,7 +52,7 @@ public class MilestoneServiceImpl implements MilestoneService {
     }
 
     private void setMilestoneValue(Milestone milestone, MilestoneRequest request) {
-        milestone.setLevel(request.getLevel());
+        milestone.setStepName(request.getStepName());
         milestone.setStartDate(request.getStartDate());
         milestone.setEndDate(request.getEndDate());
 

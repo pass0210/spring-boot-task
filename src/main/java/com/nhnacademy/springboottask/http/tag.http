@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:9090/projects/tags/2
+DELETE http://localhost:9090/projects/tags/1
 
 ###
 
@@ -28,4 +28,4 @@ GET http://localhost:9090/projects/tags/1
 
 ###
 
-GET http://localhost:9090/projects/5/tags
+GET http://localhost:9090/projects/1/tags

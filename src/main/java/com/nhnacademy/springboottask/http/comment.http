@@ -1,4 +1,4 @@
-POST http://localhost:9090/projects/5/comments
+POST http://localhost:9090/projects/1/comments
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:9090/projects/5/comments/1
+PUT http://localhost:9090/projects/1/comments/1
 Content-Type: application/json
 
 {
@@ -26,4 +26,4 @@ GET http://localhost:9090/projects/comments/1
 
 ###
 
-GET http://localhost:9090/projects/5/comments
+GET http://localhost:9090/projects/1/comments

@@ -1,4 +1,4 @@
-POST http://localhost:9090/projects/24/tasks
+POST http://localhost:9090/projects/1/tasks
 Content-Type: application/json
 
 {
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "tagIds": [1],
-  "projectId": 24,
+  "projectId": 1,
   "taskState": "완료",
   "userId": "testUser",
   "title": "testTitle",
@@ -27,11 +27,11 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:9090/projects/tasks/4
+DELETE http://localhost:9090/projects/tasks/2
 
 ###
 
-GET http://localhost:9090/projects/24/tasks
+GET http://localhost:9090/projects/1/tasks
 
 ###
 
@@ -39,4 +39,4 @@ GET http://localhost:9090/projects/tasks/1
 
 ###
 
-GET http://localhost:9090/projects/1/24/tasks
+GET http://localhost:9090/projects/1/1/tasks
