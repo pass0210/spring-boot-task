@@ -22,4 +22,8 @@ public class Milestone {
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
+
+    @JoinColumn(name = "projectId")
+    @ManyToOne
+    private Project project;
 }

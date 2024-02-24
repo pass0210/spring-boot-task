@@ -18,18 +18,18 @@ public class TagController {
         this.tagService = tagService;
     }
 
-    @PostMapping("/tags")
-    public ResponseEntity<Void> createTag(@RequestBody TagRequest request) {
-        tagService.createTag(request);
+    @PostMapping("/tags/{projectId}")
+    public ResponseEntity<Void> createTag(@PathVariable Long projectId, @RequestBody TagRequest request) {
+        tagService.createTag(projectId, request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
     }
 
-    @PutMapping("/tags/{tagId}")
-    public ResponseEntity<Void> updateTag(@PathVariable Long tagId, @RequestBody TagRequest request) {
-        tagService.updateTag(tagId, request);
+    @PutMapping("/tags/{tagId}/{projectId}")
+    public ResponseEntity<Void> updateTag(@PathVariable Long tagId, @PathVariable Long projectId, @RequestBody TagRequest request) {
+        tagService.updateTag(tagId, projectId, request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -37,7 +37,7 @@ public class TagController {
     }
 
     @DeleteMapping("/tags/{tagId}")
-    public ResponseEntity<Void> deleteTag(@PathVariable Long tagId) {
+    public ResponseEntity<Void> deleteTag(@PathVariable Long tagId, @PathVariable Long projectId) {
         tagService.deleteTag(tagId);
 
         return ResponseEntity
@@ -70,5 +70,14 @@ public class TagController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(tagByTask);
+    }
+
+    @GetMapping("/project/{projectId}/tags")
+    public ResponseEntity<List<Tag>> getTagByProject(@PathVariable Long projectId) {
+        List<Tag> tagByProject = tagService.getTagByProject(projectId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(tagByProject);
     }
 }

@@ -1,5 +1,6 @@
 package com.nhnacademy.springboottask.repository.impl;
 
+import com.nhnacademy.springboottask.domain.QProject;
 import com.nhnacademy.springboottask.domain.QTag;
 import com.nhnacademy.springboottask.domain.QTaskTag;
 import com.nhnacademy.springboottask.domain.Tag;
@@ -21,6 +22,18 @@ public class TagRepositoryImpl extends QuerydslRepositorySupport implements TagR
         return from(taskTag)
                 .rightJoin(taskTag.tag, tag)
                 .where(taskTag.task.taskId.eq(taskId))
+                .select(tag)
+                .fetch();
+    }
+
+    @Override
+    public List<Tag> getTagByProjectId(Long projectId) {
+        QTag tag = QTag.tag;
+        QProject project = QProject.project;
+
+        return from(tag)
+                .leftJoin(tag.project, project)
+                .where(project.projectId.eq(projectId))
                 .select(tag)
                 .fetch();
     }
