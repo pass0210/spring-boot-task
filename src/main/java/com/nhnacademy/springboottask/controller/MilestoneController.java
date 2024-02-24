@@ -18,18 +18,18 @@ public class MilestoneController {
         this.milestoneService = milestoneService;
     }
 
-    @PostMapping("/milestones")
-    public ResponseEntity<Void> milestoneSave(@RequestBody MilestoneRequest request) {
-        milestoneService.createMilestone(request);
+    @PostMapping("/milestones/{projectId}")
+    public ResponseEntity<Void> milestoneSave(@PathVariable Long projectId, @RequestBody MilestoneRequest request) {
+        milestoneService.createMilestone(projectId, request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .build();
     }
 
-    @PutMapping("/milestones/{milestoneId}")
-    public ResponseEntity<Void> milestoneUpdate(@PathVariable Long milestoneId, @RequestBody MilestoneRequest request) {
-        milestoneService.updateMilestone(milestoneId, request);
+    @PutMapping("/milestones/{milestoneId}/{projectId}")
+    public ResponseEntity<Void> milestoneUpdate(@PathVariable Long milestoneId, @PathVariable Long projectId, @RequestBody MilestoneRequest request) {
+        milestoneService.updateMilestone(milestoneId, projectId, request);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -61,5 +61,14 @@ public class MilestoneController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(milestone);
+    }
+
+    @GetMapping("/{projectId}/milestones")
+    public ResponseEntity<List<Milestone>> getMilestoneByProject(@PathVariable Long projectId) {
+        List<Milestone> milestonesByProject = milestoneService.getMilestoneByProject(projectId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(milestonesByProject);
     }
 }

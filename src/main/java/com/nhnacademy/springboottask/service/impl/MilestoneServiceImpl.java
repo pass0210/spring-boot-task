@@ -1,8 +1,10 @@
 package com.nhnacademy.springboottask.service.impl;
 
 import com.nhnacademy.springboottask.domain.Milestone;
+import com.nhnacademy.springboottask.domain.Project;
 import com.nhnacademy.springboottask.dto.request.MilestoneRequest;
 import com.nhnacademy.springboottask.repository.MilestoneRepository;
+import com.nhnacademy.springboottask.repository.ProjectRepository;
 import com.nhnacademy.springboottask.service.MilestoneService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,25 +14,29 @@ import java.util.List;
 @Service
 public class MilestoneServiceImpl implements MilestoneService {
     private final MilestoneRepository milestoneRepository;
+    private final ProjectRepository projectRepository;
 
-    public MilestoneServiceImpl(MilestoneRepository milestoneRepository) {
+    public MilestoneServiceImpl(MilestoneRepository milestoneRepository, ProjectRepository projectRepository) {
         this.milestoneRepository = milestoneRepository;
+        this.projectRepository = projectRepository;
     }
 
     @Transactional
     @Override
-    public void createMilestone(MilestoneRequest request) {
+    public void createMilestone(Long projectId, MilestoneRequest request) {
         Milestone milestone = new Milestone();
+        Project project = projectRepository.findById(projectId).orElse(null);
 
-        setMilestoneValue(milestone, request);
+        setMilestoneValue(milestone, project, request);
     }
 
     @Transactional
     @Override
-    public void updateMilestone(Long milestoneId, MilestoneRequest request) {
+    public void updateMilestone(Long milestoneId, Long projectId, MilestoneRequest request) {
         Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
+        Project project = projectRepository.findById(projectId).orElse(null);
 
-        setMilestoneValue(milestone, request);
+        setMilestoneValue(milestone, project, request);
     }
 
     @Transactional
@@ -51,10 +57,16 @@ public class MilestoneServiceImpl implements MilestoneService {
         return milestoneRepository.findById(milestoneId).orElse(null);
     }
 
-    private void setMilestoneValue(Milestone milestone, MilestoneRequest request) {
+    @Override
+    public List<Milestone> getMilestoneByProject(Long projectId) {
+        return milestoneRepository.getMilestoneByProject_ProjectId(projectId);
+    }
+
+    private void setMilestoneValue(Milestone milestone, Project project, MilestoneRequest request) {
         milestone.setStepName(request.getStepName());
         milestone.setStartDate(request.getStartDate());
         milestone.setEndDate(request.getEndDate());
+        milestone.setProject(project);
 
         milestoneRepository.save(milestone);
     }
