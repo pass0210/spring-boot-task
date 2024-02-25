@@ -3,6 +3,10 @@ package com.nhnacademy.springboottask.service.impl;
 import com.nhnacademy.springboottask.domain.Milestone;
 import com.nhnacademy.springboottask.domain.Project;
 import com.nhnacademy.springboottask.dto.request.MilestoneRequest;
+import com.nhnacademy.springboottask.exception.CreateMilestoneException;
+import com.nhnacademy.springboottask.exception.DeleteMilestoneException;
+import com.nhnacademy.springboottask.exception.MilestoneNotFoundException;
+import com.nhnacademy.springboottask.exception.UpdateMilestoneException;
 import com.nhnacademy.springboottask.repository.MilestoneRepository;
 import com.nhnacademy.springboottask.repository.ProjectRepository;
 import com.nhnacademy.springboottask.service.MilestoneService;
@@ -25,7 +29,7 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Override
     public void createMilestone(Long projectId, MilestoneRequest request) {
         Milestone milestone = new Milestone();
-        Project project = projectRepository.findById(projectId).orElse(null);
+        Project project = projectRepository.findById(projectId).orElseThrow(CreateMilestoneException::new);
 
         setMilestoneValue(milestone, project, request);
     }
@@ -33,8 +37,8 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Transactional
     @Override
     public void updateMilestone(Long milestoneId, Long projectId, MilestoneRequest request) {
-        Milestone milestone = milestoneRepository.findById(milestoneId).orElse(null);
-        Project project = projectRepository.findById(projectId).orElse(null);
+        Milestone milestone = milestoneRepository.findById(milestoneId).orElseThrow(UpdateMilestoneException::new);
+        Project project = projectRepository.findById(projectId).orElseThrow(UpdateMilestoneException::new);
 
         setMilestoneValue(milestone, project, request);
     }
@@ -42,6 +46,8 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Transactional
     @Override
     public void deleteMilestone(Long milestoneId) {
+        if (!milestoneRepository.existsById(milestoneId))
+            throw new DeleteMilestoneException();
         milestoneRepository.deleteById(milestoneId);
     }
 
@@ -54,7 +60,7 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Transactional(readOnly = true)
     @Override
     public Milestone getMilestone(Long milestoneId) {
-        return milestoneRepository.findById(milestoneId).orElse(null);
+        return milestoneRepository.findById(milestoneId).orElseThrow(MilestoneNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
