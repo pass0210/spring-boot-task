@@ -61,7 +61,7 @@ public class TaskServiceImpl implements TaskService {
         task.setDeadline(request.getDeadline());
 
         taskRepository.save(task);
-        if (!request.getTagIds().isEmpty()) {
+        if (Objects.nonNull(request.getTagIds()) && !request.getTagIds().isEmpty()) {
             taskTagSave(task, request.getTagIds());
         }
     }
@@ -87,7 +87,7 @@ public class TaskServiceImpl implements TaskService {
 
         taskRepository.save(task);
         taskTagRepository.deleteByPk_TaskId(task.getTaskId());
-        if (!request.getTagIds().isEmpty()) {
+        if (Objects.nonNull(request.getTagIds()) && !request.getTagIds().isEmpty()) {
             taskTagSave(task, request.getTagIds());
         }
     }

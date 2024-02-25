@@ -52,10 +52,10 @@ class ProjectEndToEndTest {
     @Order(2)
     @Transactional
     void projectStateUpdateTest() throws Exception {
-        Project project = new Project();
         ObjectMapper objectMapper = new ObjectMapper();
-        ProjectStateRequest request = new ProjectStateRequest();
+        Project project = new Project();
         ProjectStatus projectStatus = new ProjectStatus();
+        ProjectStateRequest request = new ProjectStateRequest();
         projectStatus.setProjectState("활성");
 
         project.setUserId("pass0210");
