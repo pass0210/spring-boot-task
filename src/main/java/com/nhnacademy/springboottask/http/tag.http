@@ -5,9 +5,36 @@ Content-Type: application/json
   "tagName": "testTag"
 }
 
+### 존재하지 않는 프로젝트 아이디를 넣었을 때
+
+POST http://localhost:9090/projects/tags/100
+Content-Type: application/json
+
+{
+  "tagName": "testTag"
+}
+
 ###
 
 PUT http://localhost:9090/projects/tags/1/1
+Content-Type: application/json
+
+{
+  "tagName": "updateTagName"
+}
+
+### 존재하지 않는 태그 아이디를 넣었을 때
+
+PUT http://localhost:9090/projects/tags/100/1
+Content-Type: application/json
+
+{
+  "tagName": "updateTagName"
+}
+
+### 존재하지 않는 프로젝트 아이디를 넣었을 때
+
+PUT http://localhost:9090/projects/tags/1/100
 Content-Type: application/json
 
 {
@@ -18,6 +45,10 @@ Content-Type: application/json
 
 DELETE http://localhost:9090/projects/tags/1
 
+### 존재하지 않는 태그 아이디를 넣었을 때
+
+DELETE http://localhost:9090/projects/tags/100
+
 ###
 
 GET http://localhost:9090/projects/tags
@@ -25,6 +56,10 @@ GET http://localhost:9090/projects/tags
 ###
 
 GET http://localhost:9090/projects/tags/1
+
+### 존재하지 않는 태그를 조회할 때
+
+GET http://localhost:9090/projects/tags/100
 
 ###
 
