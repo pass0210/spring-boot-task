@@ -57,6 +57,7 @@ public class MilestoneServiceImpl implements MilestoneService {
         return milestoneRepository.findById(milestoneId).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Milestone> getMilestoneByProject(Long projectId) {
         return milestoneRepository.getMilestoneByProject_ProjectId(projectId);

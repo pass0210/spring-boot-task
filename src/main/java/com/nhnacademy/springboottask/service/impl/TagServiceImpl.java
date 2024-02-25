@@ -73,6 +73,7 @@ public class TagServiceImpl implements TagService {
         return tagRepository.getTagByTaskId(taskId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Tag> getTagByProject(Long projectId) {
         return tagRepository.getTagByProjectId(projectId);

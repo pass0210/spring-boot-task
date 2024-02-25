@@ -7,6 +7,7 @@ import com.nhnacademy.springboottask.repository.CommentRepository;
 import com.nhnacademy.springboottask.repository.TaskRepository;
 import com.nhnacademy.springboottask.service.CommentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class CommentServiceImpl implements CommentService {
         this.taskRepository = taskRepository;
     }
 
+    @Transactional
     @Override
     public void createComment(Long taskId, CommentRequest request) {
         Comment comment = new Comment();
@@ -28,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
         setCommentValue(comment, task, request);
     }
 
+    @Transactional
     @Override
     public void updateComment(Long taskId, Long commentId, CommentRequest request) {
         Comment comment = commentRepository.findById(commentId).orElse(null);
@@ -36,16 +39,19 @@ public class CommentServiceImpl implements CommentService {
         setCommentValue(comment, task, request);
     }
 
+    @Transactional
     @Override
     public void deleteComment(Long commentId) {
         commentRepository.deleteById(commentId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Comment getComment(Long commentId) {
         return commentRepository.findById(commentId).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Comment> getCommentByTask(Long taskId) {
         return commentRepository.getCommentByTaskId(taskId);
