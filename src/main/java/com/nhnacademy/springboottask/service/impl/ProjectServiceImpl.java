@@ -4,6 +4,9 @@ import com.nhnacademy.springboottask.domain.Member;
 import com.nhnacademy.springboottask.domain.Project;
 import com.nhnacademy.springboottask.domain.ProjectStatus;
 import com.nhnacademy.springboottask.dto.request.CreateProjectRequest;
+import com.nhnacademy.springboottask.exception.ProjectCreateException;
+import com.nhnacademy.springboottask.exception.ProjectNotFoundException;
+import com.nhnacademy.springboottask.exception.ProjectUpdateException;
 import com.nhnacademy.springboottask.repository.MemberRepository;
 import com.nhnacademy.springboottask.repository.ProjectRepository;
 import com.nhnacademy.springboottask.repository.ProjectStatusRepository;
@@ -31,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
         Project project = new Project();
         ProjectStatus projectStatus = projectStatusRepository
                 .findById(request.getProjectState())
-                .orElse(null);
+                .orElseThrow(ProjectCreateException::new);
         Member member = new Member();
         Member.Pk pk = new Member.Pk();
 
@@ -54,10 +57,10 @@ public class ProjectServiceImpl implements ProjectService {
     public void updateStateProject(Long projectId, String projectState) {
         Project project = projectRepository
                 .findById(projectId)
-                .orElse(null);
+                .orElseThrow(ProjectUpdateException::new);
         ProjectStatus projectStatus = projectStatusRepository
                 .findById(projectState)
-                .orElse(null);
+                .orElseThrow(ProjectUpdateException::new);
         project.setProjectStatus(projectStatus);
 
         projectRepository.save(project);
@@ -72,6 +75,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Transactional(readOnly = true)
     @Override
     public Project getProject(Long projectId) {
-        return projectRepository.findById(projectId).orElse(null);
+        return projectRepository.findById(projectId).orElseThrow(ProjectNotFoundException::new);
     }
 }

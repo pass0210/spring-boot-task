@@ -6,9 +6,39 @@ Content-Type: application/json
   "content": "testContent"
 }
 
+### 존재하지 않는 업무 아이디를 넣었을 때
+
+POST http://localhost:9090/projects/100/comments
+Content-Type: application/json
+
+{
+  "userId": "testUser",
+  "content": "testContent"
+}
+
 ###
 
 PUT http://localhost:9090/projects/1/comments/1
+Content-Type: application/json
+
+{
+  "userId": "testUser",
+  "content": "updateContent"
+}
+
+### 존재하지 않는 업무 아이디를 넣었을 때
+
+PUT http://localhost:9090/projects/100/comments/1
+Content-Type: application/json
+
+{
+  "userId": "testUser",
+  "content": "updateContent"
+}
+
+### 존재하지 않는 코멘트 아이디를 넣었을 때
+
+PUT http://localhost:9090/projects/1/comments/100
 Content-Type: application/json
 
 {
@@ -20,10 +50,22 @@ Content-Type: application/json
 
 DELETE http://localhost:9090/projects/comments/2
 
+### 졵재하지 않는 코멘트를 지우려고 할 때
+
+DELETE http://localhost:9090/projects/comments/100
+
 ###
 
 GET http://localhost:9090/projects/comments/1
 
+### 존재하지 않는 코멘트를 가져오려 할 때
+
+GET http://localhost:9090/projects/comments/100
+
 ###
 
 GET http://localhost:9090/projects/1/comments
+
+### 존재하지 않는 업무 아이디를 넣었을 때
+
+GET http://localhost:9090/projects/100/comments
