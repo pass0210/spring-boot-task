@@ -10,6 +10,49 @@ Content-Type: application/json
   "deadline": "2024-02-22 11:11:11"
 }
 
+### 존재하지 않는 프로젝트 아이디를 넣었을 때
+
+POST http://localhost:9090/projects/100/tasks
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "taskState": "할 일",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
+###  존재하지 않는 상태를 넣었을 때
+
+POST http://localhost:9090/projects/1/tasks
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "taskState": "not exist state",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
+### 존재하지 않는 마일스톤 아이디를 넣었을 때
+
+POST http://localhost:9090/projects/1/tasks
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "milestoneId": 100,
+  "taskState": "할 일",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
 ###
 
 PUT http://localhost:9090/projects/tasks/1
@@ -25,9 +68,74 @@ Content-Type: application/json
   "deadline": "2024-02-22 11:11:11"
 }
 
+### 존재하지 않는 업무 아이디를 넣었을 때
+
+PUT http://localhost:9090/projects/tasks/100
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "projectId": 1,
+  "taskState": "완료",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
+### 존재하지 않는 프로젝트 아이디를 넣었을 때
+
+PUT http://localhost:9090/projects/tasks/1
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "projectId": 100,
+  "taskState": "완료",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
+###
+
+PUT http://localhost:9090/projects/tasks/1
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "projectId": 1,
+  "taskState": "not exist state",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
+### 존재하지 않는 마일스톤 아이디를 넣었을 때
+
+PUT http://localhost:9090/projects/tasks/1
+Content-Type: application/json
+
+{
+  "tagIds": [1],
+  "projectId": 1,
+  "milestoneId": 100,
+  "taskState": "완료",
+  "userId": "testUser",
+  "title": "testTitle",
+  "content": "testContent",
+  "deadline": "2024-02-22 11:11:11"
+}
+
 ###
 
 DELETE http://localhost:9090/projects/tasks/2
+
+### 존재하지 않는 업무를 삭제할 때
+
+DELETE http://localhost:9090/projects/tasks/100
 
 ###
 
@@ -36,6 +144,10 @@ GET http://localhost:9090/projects/1/tasks
 ###
 
 GET http://localhost:9090/projects/tasks/1
+
+### 존재하지 않는 업무 아이디를 넣었을 때
+
+GET http://localhost:9090/projects/tasks/100
 
 ###
 

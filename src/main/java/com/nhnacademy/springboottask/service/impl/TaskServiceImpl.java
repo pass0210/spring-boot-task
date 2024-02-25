@@ -3,6 +3,10 @@ package com.nhnacademy.springboottask.service.impl;
 import com.nhnacademy.springboottask.domain.*;
 import com.nhnacademy.springboottask.dto.request.CreateTaskRequest;
 import com.nhnacademy.springboottask.dto.request.UpdateTaskRequest;
+import com.nhnacademy.springboottask.exception.CreateTaskException;
+import com.nhnacademy.springboottask.exception.DeleteTaskException;
+import com.nhnacademy.springboottask.exception.TaskNotFoundException;
+import com.nhnacademy.springboottask.exception.UpdateTaskException;
 import com.nhnacademy.springboottask.repository.*;
 import com.nhnacademy.springboottask.service.TaskService;
 import org.springframework.stereotype.Service;
@@ -41,11 +45,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void createTask(Long projectId, CreateTaskRequest request) {
         Task task = new Task();
-        Project project = projectRepository.findById(projectId).orElse(null);
-        TaskStatus taskStatus = taskStatusRepository.findById(request.getTaskState()).orElse(null);
+        Project project = projectRepository.findById(projectId).orElseThrow(CreateTaskException::new);
+        TaskStatus taskStatus = taskStatusRepository.findById(request.getTaskState()).orElseThrow(CreateTaskException::new);
 
         if (Objects.nonNull(request.getMilestoneId())) {
-            Milestone milestone = milestoneRepository.findById(request.getMilestoneId()).orElse(null);
+            Milestone milestone = milestoneRepository.findById(request.getMilestoneId()).orElseThrow(CreateTaskException::new);
             task.setMilestone(milestone);
         }
 
@@ -65,12 +69,12 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Override
     public void updateTask(Long taskId, UpdateTaskRequest request) {
-        Task task = new Task();
-        Project project = projectRepository.findById(request.getProjectId()).orElse(null);
-        TaskStatus taskStatus = taskStatusRepository.findById(request.getTaskState()).orElse(null);
+        Task task = taskRepository.findById(taskId).orElseThrow(UpdateTaskException::new);
+        Project project = projectRepository.findById(request.getProjectId()).orElseThrow(UpdateTaskException::new);
+        TaskStatus taskStatus = taskStatusRepository.findById(request.getTaskState()).orElseThrow(UpdateTaskException::new);
 
         if (Objects.nonNull(request.getMilestoneId())) {
-            Milestone milestone = milestoneRepository.findById(request.getMilestoneId()).orElse(null);
+            Milestone milestone = milestoneRepository.findById(request.getMilestoneId()).orElseThrow(UpdateTaskException::new);
             task.setMilestone(milestone);
         }
         task.setTaskId(taskId);
@@ -91,6 +95,9 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     @Override
     public void deleteTask(Long taskId) {
+        if (!taskRepository.existsById(taskId))
+            throw new DeleteTaskException();
+
         taskTagRepository.deleteByPk_TaskId(taskId);
         commentRepository.deleteByTask_TaskId(taskId);
         taskRepository.deleteById(taskId);
@@ -105,7 +112,7 @@ public class TaskServiceImpl implements TaskService {
     @Transactional(readOnly = true)
     @Override
     public Task getTaskDetail(Long taskId) {
-        return taskRepository.findById(taskId).orElse(null);
+        return taskRepository.findById(taskId).orElseThrow(TaskNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
